@@ -1,8 +1,16 @@
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include <secrets.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMonoBold18pt7b.h>
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+String device_id = String((uint32_t)ESP.getEfuseMac(), HEX);
 
 
 // Define the e-paper display class and parameters
@@ -11,7 +19,44 @@ GxEPD2_BW<GxEPD2_213_B74, GxEPD2_213_B74::HEIGHT> display(
 
 #define LINE_SPACING 5 // Define custom line spacing in pixels
 
-void drawTextWithWrap(int16_t x, int16_t y, const char* text, float price,int16_t maxWidth, int16_t maxHeight) {
+void setup_wifi() {
+  delay(10);
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(WIFI_SSID);
+
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println(WiFi.localIP());
+}
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Msg for "); Serial.println(device_id);
+  // Handle incoming control, e.g. price updates
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect("ESP32Client_device123")) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" trying again in 5 seconds");
+      delay(5000);
+    }
+  }
+}
+
+void drawTextWithWrap(int16_t x, int16_t y, const char* text, float price, int16_t maxWidth, int16_t maxHeight) {
   display.setFont(&FreeMonoBold9pt7b);
 
   int16_t cursorX = x;
@@ -89,13 +134,15 @@ void drawTextWithWrap(int16_t x, int16_t y, const char* text, float price,int16_
   display.print(mainStr);
 
   // Draw decimal part
-  display.setFont(&FreeMonoBold12pt7b);
-  display.setCursor(priceX + mainWidth, baseY - (mainHeight - decimalHeight)); // align bottoms
+  display.setFont(&FreeMonoBold9pt7b);
+  display.setCursor(priceX + mainWidth + 5, baseY - mainHeight + (decimalHeight - 2)); // align bottoms
   display.print(decimalStr);
 }
 
 void setup() {
   Serial.begin(115200);
+
+  Serial.print(String((uint32_t)ESP.getEfuseMac(), HEX));
 
   display.cp437(true);
 
@@ -108,6 +155,20 @@ void setup() {
   // Power the e-paper display by setting GPIO 2 to HIGH
   pinMode(2, OUTPUT);
   digitalWrite(2, HIGH);
+
+  setup_wifi();
+
+  client.setServer("172.20.10.8", 1883);
+  client.setCallback(callback);
+
+  if (!client.connected()) {
+    reconnect();
+  }
+
+  const char* mqtt_topic = "shelf/device123/stock"; // Unique topic for this ESP
+  const char* msg = "HELP"; // Unique topic for this ESP
+  client.publish(mqtt_topic, msg);
+
 
   // Clear the display
   display.setFullWindow();
@@ -142,6 +203,11 @@ void setup() {
 }
 
 void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
   // Send ultrasonic pulse
   digitalWrite(13, LOW);
   delayMicroseconds(2);
@@ -151,15 +217,18 @@ void loop() {
 
   // Read the echo time
   long duration = pulseIn(12, HIGH);
-
-  // Convert time to distance in cm
   float distance = duration * 0.0343 / 2;
 
-  // Print the distance
+  // Print the distance to Serial
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
 
-  // Wait for 30 seconds
+  // Convert to string and publish to MQTT
+  char msg[50];
+  snprintf(msg, sizeof(msg), "%.2f", distance);
+  const char* mqtt_topic = "shelf/device123/stock"; // Unique topic for this ESP
+  client.publish(mqtt_topic, msg);
+
   delay(5000);
 }
