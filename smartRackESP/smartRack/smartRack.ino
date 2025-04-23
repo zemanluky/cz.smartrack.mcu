@@ -3,6 +3,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <secrets.h>
+#include <ArduinoJson.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMonoBold18pt7b.h>
@@ -37,9 +38,42 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
+
 void callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("Msg for "); Serial.println(device_id);
-  // Handle incoming control, e.g. price updates
+  Serial.print("Message arrived on topic: ");
+  Serial.println(topic);
+
+  // Convert payload to string
+  String jsonStr;
+  for (unsigned int i = 0; i < length; i++) {
+    jsonStr += (char)payload[i];
+  }
+  Serial.print("Payload: ");
+  Serial.println(jsonStr);
+
+  // Parse JSON
+  StaticJsonDocument<200> doc;  // Adjust size if needed
+  DeserializationError error = deserializeJson(doc, jsonStr);
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.f_str());
+    return;
+  }
+
+  // Access data
+  String Item1Name = doc["Item1Name"];
+  Serial.print("Parsed name1: ");
+  Serial.println(Item1Name);
+  float Item1Price = doc["Item1Price"];
+  Serial.print("Parsed price1: ");
+  Serial.println(Item1Price);
+  String Item2Name = doc["Item2Name"];
+  Serial.print("Parsed name2: ");
+  Serial.println(Item2Name);
+  float Item2Price = doc["Item2Price"];
+  Serial.print("Parsed price2: ");
+  Serial.println(Item2Price);
 }
 
 void reconnect() {
@@ -47,6 +81,7 @@ void reconnect() {
     Serial.print("Attempting MQTT connection...");
     if (client.connect("ESP32Client_device123")) {
       Serial.println("connected");
+      client.subscribe("shelf/device123/price");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -165,11 +200,6 @@ void setup() {
     reconnect();
   }
 
-  const char* mqtt_topic = "shelf/device123/stock"; // Unique topic for this ESP
-  const char* msg = "HELP"; // Unique topic for this ESP
-  client.publish(mqtt_topic, msg);
-
-
   // Clear the display
   display.setFullWindow();
   display.firstPage();
@@ -200,6 +230,8 @@ void setup() {
 
   pinMode(13, OUTPUT);
   pinMode(12, INPUT);
+  pinMode(27, OUTPUT);
+  pinMode(26, INPUT);
 }
 
 void loop() {
@@ -216,19 +248,39 @@ void loop() {
   digitalWrite(13, LOW);
 
   // Read the echo time
-  long duration = pulseIn(12, HIGH);
-  float distance = duration * 0.0343 / 2;
+  long duration1 = pulseIn(12, HIGH);
+  float distance1 = min(duration1 * 0.0343 / 2, 100.00);
 
-  // Print the distance to Serial
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  float distance1Persentage = 100.0 - ((distance1 / 80) * 100);
 
-  // Convert to string and publish to MQTT
-  char msg[50];
-  snprintf(msg, sizeof(msg), "%.2f", distance);
+  delay(100); // Add 100ms between readings
+
+  digitalWrite(27, LOW);
+  delayMicroseconds(2);
+  digitalWrite(27, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(27, LOW);
+
+  // Read the echo time
+  long duration2 = pulseIn(26, HIGH);
+  float distance2 = min(duration2 * 0.0343 / 2, 100.00);
+  float distance2Persentage = 100.0 - ((distance2 / 80) * 100);
+
+  float volt = 0.0;
+  volt = (analogReadMilliVolts(34) * 1.769 / 1000);
+  float battPercentage = (volt - 3.0) / (4.2 - 3.0) * 100.0;
+
+  StaticJsonDocument<200> doc;
+  
+  doc["distance1"] = distance1Persentage;
+  doc["distance2"] = distance2Persentage;
+  doc["battery"] = battPercentage;
+
+  char jsonBuffer[256];
+  serializeJson(doc, jsonBuffer);
+
   const char* mqtt_topic = "shelf/device123/stock"; // Unique topic for this ESP
-  client.publish(mqtt_topic, msg);
+  client.publish(mqtt_topic, jsonBuffer);
 
-  delay(5000);
+  delay(10000);
 }
