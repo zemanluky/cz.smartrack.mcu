@@ -1,0 +1,441 @@
+[
+    {
+        "id": "43834154bebbd4ee",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a4e273eb9492624d",
+        "type": "inject",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"Item1Name\":\"NAME\",\"Item1Price\":123.45,\"Item2Name\":\"Name2\",\"Item2Price\":987.65}",
+        "payloadType": "json",
+        "x": 290,
+        "y": 420,
+        "wires": [
+            [
+                "9da5b0c8b34a99c5"
+            ]
+        ]
+    },
+    {
+        "id": "3502ae5c5610504a",
+        "type": "debug",
+        "z": "43834154bebbd4ee",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "494605727c010365",
+        "type": "mqtt in",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "topic": "shelf/device123/stock",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a632c81eab1f29d5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "3502ae5c5610504a",
+                "9de6766bc3392119",
+                "4246d1b6952051e2"
+            ]
+        ]
+    },
+    {
+        "id": "11fb1e8feb709678",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 290,
+        "y": 460,
+        "wires": [
+            [
+                "9da5b0c8b34a99c5"
+            ]
+        ]
+    },
+    {
+        "id": "3a0dd64bb5333c34",
+        "type": "mqtt in",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "topic": "shelf/signin",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "a632c81eab1f29d5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 60,
+        "wires": [
+            [
+                "92d6d66b0aad652a"
+            ]
+        ]
+    },
+    {
+        "id": "92d6d66b0aad652a",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 550,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9da5b0c8b34a99c5",
+        "type": "mqtt out",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "topic": "shelf/device123/price",
+        "qos": "",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a632c81eab1f29d5",
+        "x": 620,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "9e141efb62e06e7e",
+        "type": "ui_chart",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "group": "cd9a43f46048d633",
+        "order": 2,
+        "width": "4",
+        "height": "6",
+        "label": "Stock 1",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "33ba2fd4b819a5e2",
+        "type": "ui_chart",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "group": "cd9a43f46048d633",
+        "order": 1,
+        "width": "4",
+        "height": "6",
+        "label": "Stock 2",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "afdea48460e7c1c2",
+        "type": "ui_chart",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "group": "cd9a43f46048d633",
+        "order": 0,
+        "width": "4",
+        "height": "6",
+        "label": "Battery",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 880,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9de6766bc3392119",
+        "type": "json",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 550,
+        "y": 200,
+        "wires": [
+            [
+                "6bbffb76433acbad"
+            ]
+        ]
+    },
+    {
+        "id": "6bbffb76433acbad",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "function 1",
+        "func": "// Assuming msg.payload is the JSON object\n\nvar distance1 = msg.payload.distance1;\nvar distance2 = msg.payload.distance2;\nvar battery = msg.payload.battery;\n\n// Set up three different outputs\nvar output = [null, null, null];\n\n// Set values for each output\noutput[0] = { payload: distance1 };  // Output 1: voltage\noutput[1] = { payload: distance2 };  // Output 2: percentage\noutput[2] = { payload: battery };  // Output 3: status\n\n// Return multiple messages to the respective outputs\nreturn output;\n",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 200,
+        "wires": [
+            [
+                "9e141efb62e06e7e"
+            ],
+            [
+                "33ba2fd4b819a5e2"
+            ],
+            [
+                "afdea48460e7c1c2"
+            ]
+        ]
+    },
+    {
+        "id": "4246d1b6952051e2",
+        "type": "json",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 550,
+        "y": 300,
+        "wires": [
+            [
+                "df9c083424026fd7"
+            ]
+        ]
+    },
+    {
+        "id": "df9c083424026fd7",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 730,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "014eb82469f5157f",
+        "type": "inject",
+        "z": "43834154bebbd4ee",
+        "name": "",
+        "props": [],
+        "repeat": "43200",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 90,
+        "y": 460,
+        "wires": [
+            [
+                "11fb1e8feb709678"
+            ]
+        ]
+    },
+    {
+        "id": "a632c81eab1f29d5",
+        "type": "mqtt-broker",
+        "name": "Broker",
+        "broker": "localhost",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "cd9a43f46048d633",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "42bfa5545d3307eb",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "42bfa5545d3307eb",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
