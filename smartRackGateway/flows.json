@@ -8,48 +8,6 @@
         "env": []
     },
     {
-        "id": "a4e273eb9492624d",
-        "type": "inject",
-        "z": "43834154bebbd4ee",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"Item1Name\":\"NAME\",\"Item1Price\":123.45,\"Item2Name\":\"Name2\",\"Item2Price\":987.65}",
-        "payloadType": "json",
-        "x": 290,
-        "y": 420,
-        "wires": [
-            [
-                "9da5b0c8b34a99c5"
-            ]
-        ]
-    },
-    {
-        "id": "3502ae5c5610504a",
-        "type": "debug",
-        "z": "43834154bebbd4ee",
-        "name": "debug 1",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 340,
-        "y": 360,
-        "wires": []
-    },
-    {
         "id": "494605727c010365",
         "type": "mqtt in",
         "z": "43834154bebbd4ee",
@@ -62,13 +20,11 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 320,
-        "y": 300,
+        "x": 160,
+        "y": 260,
         "wires": [
             [
-                "3502ae5c5610504a",
-                "9de6766bc3392119",
-                "4246d1b6952051e2"
+                "a4ecc517374aa13a"
             ]
         ]
     },
@@ -80,7 +36,7 @@
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "",
+        "url": "https://api.smartrack.zeluk.dev/iot/shelf-device/config",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -88,11 +44,12 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 290,
-        "y": 460,
+        "x": 950,
+        "y": 440,
         "wires": [
             [
-                "9da5b0c8b34a99c5"
+                "a4f792560c4baa64",
+                "fc6f6c15c4e98503"
             ]
         ]
     },
@@ -109,11 +66,11 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 290,
-        "y": 60,
+        "x": 190,
+        "y": 80,
         "wires": [
             [
-                "92d6d66b0aad652a"
+                "71970dae26bd44c8"
             ]
         ]
     },
@@ -121,11 +78,11 @@
         "id": "92d6d66b0aad652a",
         "type": "http request",
         "z": "43834154bebbd4ee",
-        "name": "",
-        "method": "GET",
+        "name": "POST iot/shelf-device/",
+        "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "",
+        "url": "https://api.smartrack.zeluk.dev/iot/shelf-device/",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -133,10 +90,12 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 550,
-        "y": 60,
+        "x": 980,
+        "y": 80,
         "wires": [
-            []
+            [
+                "bd7e1148f23ad729"
+            ]
         ]
     },
     {
@@ -153,8 +112,8 @@
         "correl": "",
         "expiry": "",
         "broker": "a632c81eab1f29d5",
-        "x": 620,
-        "y": 420,
+        "x": 1360,
+        "y": 440,
         "wires": []
     },
     {
@@ -195,8 +154,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 880,
-        "y": 160,
+        "x": 760,
+        "y": 680,
         "wires": [
             []
         ]
@@ -239,8 +198,8 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 880,
-        "y": 200,
+        "x": 760,
+        "y": 720,
         "wires": [
             []
         ]
@@ -283,26 +242,10 @@
         "outputs": 1,
         "useDifferentColor": false,
         "className": "",
-        "x": 880,
-        "y": 240,
+        "x": 760,
+        "y": 760,
         "wires": [
             []
-        ]
-    },
-    {
-        "id": "9de6766bc3392119",
-        "type": "json",
-        "z": "43834154bebbd4ee",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 550,
-        "y": 200,
-        "wires": [
-            [
-                "6bbffb76433acbad"
-            ]
         ]
     },
     {
@@ -317,8 +260,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 700,
-        "y": 200,
+        "x": 580,
+        "y": 720,
         "wires": [
             [
                 "9e141efb62e06e7e"
@@ -332,25 +275,10 @@
         ]
     },
     {
-        "id": "4246d1b6952051e2",
-        "type": "json",
-        "z": "43834154bebbd4ee",
-        "name": "",
-        "property": "payload",
-        "action": "obj",
-        "pretty": false,
-        "x": 550,
-        "y": 300,
-        "wires": [
-            [
-                "df9c083424026fd7"
-            ]
-        ]
-    },
-    {
         "id": "df9c083424026fd7",
         "type": "http request",
         "z": "43834154bebbd4ee",
+        "d": true,
         "name": "",
         "method": "GET",
         "ret": "txt",
@@ -363,10 +291,12 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 730,
-        "y": 300,
+        "x": 950,
+        "y": 260,
         "wires": [
-            []
+            [
+                "2277a8ab6df7427a"
+            ]
         ]
     },
     {
@@ -380,13 +310,302 @@
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 90,
-        "y": 460,
+        "x": 210,
+        "y": 440,
+        "wires": [
+            [
+                "5239d015de6918d2"
+            ]
+        ]
+    },
+    {
+        "id": "71970dae26bd44c8",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "JWT check",
+        "func": "const token = flow.get(\"jwt_token\");\nconst expiry = flow.get(\"jwt_expiry\") || 0;\nconst now = Date.now();\n\nif (!token || now >= expiry - 10000) {\n    // Token missing or about to expire in 10s\n    msg._originalPayload = msg.payload\n    delete msg.payload\n    msg.payload = {\"serial_number\": \"device123\",\"device_secret\": \"vQPIO76F6JVS4SghDUecKr1Sfk1Nk49Q\"}\n    msg.loginRequired = true;\n    return [msg, null];\n}\n\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn [null, msg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 80,
+        "wires": [
+            [
+                "8d6f45741a82fedb"
+            ],
+            [
+                "92d6d66b0aad652a"
+            ]
+        ]
+    },
+    {
+        "id": "8d6f45741a82fedb",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "POST auth/device-login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.smartrack.zeluk.dev/auth/device-login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 40,
+        "wires": [
+            [
+                "52c164db493940fb"
+            ]
+        ]
+    },
+    {
+        "id": "52c164db493940fb",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "New JWT",
+        "func": "const now = Date.now();\nconst token = msg.payload.access;\nconst expiry = now + 180000;\n\nflow.set(\"jwt_token\", token);\nflow.set(\"jwt_expiry\", expiry);\n\ndelete msg.payload\n\nmsg.payload = msg._originalPayload\n\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 40,
+        "wires": [
+            [
+                "92d6d66b0aad652a"
+            ]
+        ]
+    },
+    {
+        "id": "bd7e1148f23ad729",
+        "type": "debug",
+        "z": "43834154bebbd4ee",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a4ecc517374aa13a",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "JWT check",
+        "func": "const token = flow.get(\"jwt_token\");\nconst expiry = flow.get(\"jwt_expiry\") || 0;\nconst now = Date.now();\n\nif (!token || now >= expiry - 10000) {\n    // Token missing or about to expire in 10s\n    msg._originalPayload = msg.payload\n    delete msg.payload\n    msg.payload = {\"serial_number\": \"device123\",\"device_secret\": \"vQPIO76F6JVS4SghDUecKr1Sfk1Nk49Q\"}\n    msg.loginRequired = true;\n    return [msg, null];\n}\n\nmsg.url = \"https://api.smartrack.zeluk.dev/iot/\"+msg.topic.split('/')[1]+\"/status\"\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn [null, msg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 260,
+        "wires": [
+            [
+                "07ec7f21985ad1c9"
+            ],
+            [
+                "df9c083424026fd7"
+            ]
+        ]
+    },
+    {
+        "id": "07ec7f21985ad1c9",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "POST auth/device-login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.smartrack.zeluk.dev/auth/device-login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 220,
+        "wires": [
+            [
+                "94751c1e21e77c58"
+            ]
+        ]
+    },
+    {
+        "id": "94751c1e21e77c58",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "New JWT",
+        "func": "const now = Date.now();\nconst token = msg.payload.access;\nconst expiry = now + 180000;\n\nflow.set(\"jwt_token\", token);\nflow.set(\"jwt_expiry\", expiry);\n\ndelete msg.payload\n\nmsg.url = \"https://api.smartrack.zeluk.dev/iot/\" + msg.topic.split('/')[1] + \"/status\"\n\nmsg.payload = msg._originalPayload\n\n\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 220,
+        "wires": [
+            [
+                "df9c083424026fd7"
+            ]
+        ]
+    },
+    {
+        "id": "2277a8ab6df7427a",
+        "type": "debug",
+        "z": "43834154bebbd4ee",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5239d015de6918d2",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "JWT check",
+        "func": "const token = flow.get(\"jwt_token\");\nconst expiry = flow.get(\"jwt_expiry\") || 0;\nconst now = Date.now();\n\nif (!token || now >= expiry - 10000) {\n    // Token missing or about to expire in 10s\n    msg._originalPayload = msg.payload\n    delete msg.payload\n    msg.payload = {\"serial_number\": \"device123\",\"device_secret\": \"vQPIO76F6JVS4SghDUecKr1Sfk1Nk49Q\"}\n    msg.loginRequired = true;\n    return [msg, null];\n}\n\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn [null, msg];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 440,
+        "wires": [
+            [
+                "f8b0fa938775d410"
+            ],
+            [
+                "11fb1e8feb709678"
+            ]
+        ]
+    },
+    {
+        "id": "f8b0fa938775d410",
+        "type": "http request",
+        "z": "43834154bebbd4ee",
+        "name": "POST auth/device-login",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://api.smartrack.zeluk.dev/auth/device-login",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 570,
+        "y": 400,
+        "wires": [
+            [
+                "db9b6081ddaad80f"
+            ]
+        ]
+    },
+    {
+        "id": "db9b6081ddaad80f",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "New JWT",
+        "func": "const now = Date.now();\nconst token = msg.payload.access;\nconst expiry = now + 180000;\n\nflow.set(\"jwt_token\", token);\nflow.set(\"jwt_expiry\", expiry);\n\ndelete msg.payload\n\nmsg.payload = msg._originalPayload\n\nmsg.headers = {\n    Authorization: `Bearer ${token}`\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 400,
         "wires": [
             [
                 "11fb1e8feb709678"
             ]
         ]
+    },
+    {
+        "id": "a4f792560c4baa64",
+        "type": "debug",
+        "z": "43834154bebbd4ee",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "fc6f6c15c4e98503",
+        "type": "function",
+        "z": "43834154bebbd4ee",
+        "name": "function 2",
+        "func": "const devices = msg.payload;\nconst msgs = [];\n\nfor (const device of devices){\n    msgs.push({\n        topic: \"shelf/\"+ device.SERIALNUM + \"price\",\n        payload: {\n            price: device.PRICE,\n            pairingCode: device.pCODE || null,\n        }\n    })\n}\nreturn [msgs];",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 440,
+        "wires": [
+            [
+                "c7a95a024f6169a7",
+                "9da5b0c8b34a99c5"
+            ]
+        ]
+    },
+    {
+        "id": "c7a95a024f6169a7",
+        "type": "debug",
+        "z": "43834154bebbd4ee",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 500,
+        "wires": []
     },
     {
         "id": "a632c81eab1f29d5",

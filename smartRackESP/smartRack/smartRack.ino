@@ -174,6 +174,19 @@ void drawTextWithWrap(int16_t x, int16_t y, const char* text, float price, int16
   display.print(decimalStr);
 }
 
+void deviceSignIn(){
+  StaticJsonDocument<200> doc;
+  
+  doc["serial_number"] = device_id;
+  doc["number_of_slots"] = 2;
+
+  char jsonBuffer[256];
+  serializeJson(doc, jsonBuffer);
+
+  const char* mqtt_topic = "shelf/signin"; // Unique topic for this ESP
+  client.publish(mqtt_topic, jsonBuffer);
+}
+
 void setup() {
   Serial.begin(115200);
 
@@ -199,6 +212,8 @@ void setup() {
   if (!client.connected()) {
     reconnect();
   }
+
+  deviceSignIn();
 
   // Clear the display
   display.setFullWindow();
